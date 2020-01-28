@@ -23,7 +23,7 @@ Problem Breakdown
 	- Perform categorization
 	- Send to delivery pipeline
 
-Implementation Notes
+Implementation Ideas
 ---------------------------
 
 - Message Routing Service (MessageRouter)
