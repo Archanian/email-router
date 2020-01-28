@@ -88,8 +88,8 @@ The following is a brief outline of the steps I would take to fully complete thi
 Performance & HA (Autoscaling w/ Kubernetes)
 ---------------------------
 - Kubernetes makes it easy to scale and distribute services according to our needs
+- By configuring the number of replicas to a sufficiently high value, and by configuring Kubernetes to distribute our pods across the cluster, we provide redundancy via multiple replicas across multiple host nodes. Additionally our cluster nodes can be distributed across multiple availability zones, giving us protection against data center failure.
 - By using HorizontalPodAutoscaler and k8s metrics API we can configure our service deployment to add/remove replicas based on message queue length (or other metrics ie. CPU utilization) - see example below.
-- By setting the minReplicas count to a sufficiently high value, and by configuring Kubernetes to distribute our pods across the cluster, we provide redundancy via multiple replicas across multiple host nodes. Additionally our cluster nodes can be distributed across multiple availability zones, giving us protection against data center failure.
 
 HPA configuration:
 ---------------------------
@@ -99,6 +99,7 @@ HPA configuration:
 
 - The below HPA targets our MessageRouter service, scaling between 5-20 replicas as needed to achieve a ready queue length of 30. Obviously these numbers would need to be tested and tweaked based on production usage requirements ...
 
+```
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
@@ -122,7 +123,7 @@ spec:
         matchLabels:
           query-name: message-queue-length
       targetAverageValue: 30
-
+```
 
 NOTES/TODO
 ---------------------------
