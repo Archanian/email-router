@@ -1,0 +1,27 @@
+version: '3.7'
+services:
+  email-router:
+    image: email-router:latest
+    container_name: email-router
+    restart: on-failure
+    environment:
+      - MESSAGEQUEUE__HOSTNAME=rabbitmq
+      - MESSAGEQUEUE__USER=guest
+      - MESSAGEQUEUE__PASS=guest
+    networks:
+      - email-router-net
+    depends_on:
+      - rabbitmq
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.8.2-management-alpine
+    ports:
+      - 15672:15672
+      - 5672:5672
+    networks:
+      - email-router-net
+
+networks:
+  email-router-net:
+      name: email-router-net
