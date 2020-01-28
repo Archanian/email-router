@@ -1,5 +1,9 @@
+# Email Router Service
+
+The prototype can be launched with `make build && make up`. To view logging output stream, use `make logs`.
+
 Problem Breakdown
-==================================================
+---------------------------
 
 - High-level characteristics of email delivery
 	- Critical in nature, failure is unacceptable (particularly for Transactional)
@@ -20,7 +24,7 @@ Problem Breakdown
 	- Send to delivery pipeline
 
 Implementation Notes
-==================================================
+---------------------------
 
 - Message Routing Service (MessageRouter)
 	- Background worker microservice, operating on the competing consumer pattern
@@ -49,7 +53,7 @@ Implementation Notes
 
 
 Work Outline
-==================================================
+---------------------------
 
 The following is a brief outline of the steps I would take to fully complete this work. As part of this exercise I have only implemented the first stages of the MessageRouter service (step 2).
 
@@ -81,14 +85,14 @@ The following is a brief outline of the steps I would take to fully complete thi
   - Consider load testing with production workloads
 
 
-Performance & HA - Autoscaling w/ Kubernetes
-==================================================
+Performance & HA (Autoscaling w/ Kubernetes)
+---------------------------
 - Kubernetes makes it easy to scale and distribute services according to our needs
 - By using HorizontalPodAutoscaler and k8s metrics API we can configure our service deployment to add/remove replicas based on message queue length (or other metrics ie. CPU utilization) - see example below.
 - By setting the minReplicas count to a sufficiently high value, and by configuring Kubernetes to distribute our pods across the cluster, we provide redundancy via multiple replicas across multiple host nodes. Additionally our cluster nodes can be distributed across multiple availability zones, giving us protection against data center failure.
 
 HPA configuration:
------------------------------------------------
+---------------------------
 - Requirements (assuming RabbitMQ):
 	- RabbitMQ metrics exporter - https://github.com/kbudde/rabbitmq_exporter
 	- Metrics adapter to expose via k8s metrics API - https://github.com/zalando-incubator/kube-metrics-adapter
@@ -121,6 +125,7 @@ spec:
 
 
 NOTES/TODO
+---------------------------
 - Concept of "sending pipelines" and what that entails is not really fleshed out. Currently just publishing a message based on the determined category
 - I would move message definitions out into a separate class library, as these would need to be shared by other services that are publishing messages (ie. Public API Service)
 - Message schema versioning would also be a consideration
