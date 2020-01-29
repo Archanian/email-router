@@ -54,11 +54,11 @@ namespace EmailRouter.Tests
             
             _categorizer.Setup(x => x.Categorize(It.IsAny<EmailSendRequest>()))
                 .Returns(new SendingPipeline
-            {
-                Name = "Test Pipeline",
-                SendType = EmailType.Transactional,
-                QueueName = queue
-            });
+                {
+                    Name = "Test Pipeline",
+                    SendType = EmailType.Transactional,
+                    QueueName = queue
+                });
             
             _handler.Handle(new EmailSendRequest());
 
