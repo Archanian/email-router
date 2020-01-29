@@ -2,6 +2,27 @@
 
 The prototype can be launched with `make build && make up`. To view logging output stream, use `make logs`.
 
+Open the RabbitMQ admin UI @ http://localhost:15672 (user = guest, pass = guest) and publish a message to the `email-requests` queue with the following properties:
+
+- Properties:
+	- `type = EmailRouter.Service.Messages.EmailSendRequest`
+	- `message_id = 1111`
+- Payload:
+```
+{
+  "customer": {
+    "id": "b4befc5c-991e-4578-a93d-937f18b72c61",
+    "emailAddress": "customer@test.com"
+  },
+  "submittedAt": "2020-01-26T15:49:10.384Z",
+  "emailPayload": {
+    "from": "customer@test.com",
+    "to": "test-2@test.com",
+    "subject": "Test Email"
+  }
+}
+```
+
 Problem Breakdown
 ---------------------------
 
